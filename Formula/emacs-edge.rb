@@ -24,7 +24,6 @@ class EmacsEdge < Formula
 
   depends_on "cairo" => :optional
   depends_on "d-bus" => :optional
-  depends_on "glib" => :optional
   depends_on "imagemagick" => :optional
   depends_on "librsvg" => :optional
   depends_on "mailutils" => :optional
@@ -59,7 +58,6 @@ class EmacsEdge < Formula
 
     args << "--enable-check-lisp-object-type" if build.with? "check-lisp-object-type"
     args << "--with-cairo" if build.with? "cairo"
-    args << "--with-file-notification=gfile" if build.with? "glib"
     args << "--with-imagemagick" if build.with? "imagemagick"
     args << "--with-rsvg" if build.with? "librsvg"
     args << "--without-compress-install" if build.without? "compress-install"
