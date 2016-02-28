@@ -73,7 +73,9 @@ class EmacsEdge < Formula
     system "./configure", *args
     system "make"
     system "make", "install"
-    (pkgshare/"src").install Dir["src/*.{c,h}"]
+
+    # Install C sources
+    pkgshare.install "src", "lib"
 
     if build.with? "cocoa"
       prefix.install "nextstep/Emacs.app"
