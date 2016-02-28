@@ -97,11 +97,15 @@ class EmacsEdge < Formula
   end
 
   def caveats
-    if build.with? "cocoa" then <<-EOS.undent
+    s = "Source files were installed in #{opt_pkgshare}.\n"
+    if build.with? "cocoa"
+      s += <<-EOS.undent
+
       A command line wrapper for the cocoa app was installed to:
         #{bin}/emacs
       EOS
     end
+    s
   end
 
   def plist; <<-EOS.undent
