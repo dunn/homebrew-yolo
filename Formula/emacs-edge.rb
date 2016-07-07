@@ -40,6 +40,7 @@ class EmacsEdge < Formula
       --enable-locallisppath=#{HOMEBREW_PREFIX}/share/emacs/site-lisp
       --infodir=#{info}/emacs
       --prefix=#{prefix}
+      --with-modules
       --with-xml2
       --without-x
     ]
