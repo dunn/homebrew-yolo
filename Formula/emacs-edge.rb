@@ -20,6 +20,11 @@ class EmacsEdge < Formula
   depends_on "automake" => :build
   depends_on "pkg-config" => :build
 
+  depends_on "gdk-pixbuf" => :linked
+  depends_on "gettext" => :linked
+  depends_on "glib" => :linked
+  depends_on "jpeg" => :linked
+
   depends_on "gnutls" => :recommended
 
   depends_on "cairo" => :optional
