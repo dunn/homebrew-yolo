@@ -27,7 +27,7 @@ class EmacsEdge < Formula
 
   depends_on "gnutls" => :recommended
 
-  depends_on "cairo" => :optional
+  depends_on "cairo" => [:optional, :linked]
   depends_on "d-bus" => :optional
   depends_on "imagemagick" => :optional
   depends_on "librsvg" => :optional
