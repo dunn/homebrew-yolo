@@ -13,6 +13,12 @@ class EmacsEdge < Formula
     version "25.1-pre"
   end
 
+  # https://lists.gnu.org/archive/html/emacs-devel/2016-06/msg00630.html
+  patch do
+    url "https://gist.github.com/dunn/86c9364c009a9ba99243da653aecbd23/raw/49fc227b2b27a3f9aa43e502181dcb19783a2ee5/emoji.patch"
+    sha256 "c8a1402c73b5eb6bd1dc747f6411e42760beff8a41ead3726395a90e04f0dae7"
+  end
+
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
   option "with-ctags", "Don't remove the ctags executable that Emacs provides"
   option "without-cocoa", "Build without the Cocoa window system"
