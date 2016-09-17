@@ -1,16 +1,25 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "http://alpha.gnu.org/gnu/emacs/pretest/emacs-25.1-rc2.tar.xz"
-  version "25.1-rc2"
-  sha256 "5bd45f03bdff90f9d7add7224917fc828ed89716e952b3db8eb98242b7dfcec1"
-
-  head "https://github.com/emacs-mirror/emacs.git"
+  url "https://ftpmirror.gnu.org/emacs/emacs-25.1.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/emacs/emacs-25.1.tar.xz"
+  sha256 "19f2798ee3bc26c95dca3303e7ab141e7ad65d6ea2b6945eeba4dbea7df48f33"
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
         :branch => "emacs-25"
-    version "25.1-pre"
+    version "25.2-devel"
+
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+    depends_on "pkg-config" => :build
+  end
+
+  head do
+    url "https://github.com/emacs-mirror/emacs.git"
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+    depends_on "pkg-config" => :build
   end
 
   # https://lists.gnu.org/archive/html/emacs-devel/2016-06/msg00630.html
@@ -21,25 +30,14 @@ class EmacsEdge < Formula
 
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
   option "with-ctags", "Don't remove the ctags executable that Emacs provides"
-  option "without-cocoa", "Build without the Cocoa window system"
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
-  depends_on "pkg-config" => :build
-
-  depends_on "gdk-pixbuf" => :linked
-  depends_on "gettext" => :linked
-  depends_on "glib" => :linked
-  depends_on "jpeg" => :linked
-
+  depends_on "librsvg"
+  depends_on "mailutils"
   depends_on "gnutls" => :recommended
-
-  depends_on "cairo" => [:optional, :linked]
-  depends_on "d-bus" => :optional
+  depends_on "cairo" => :optional
+  depends_on "dbus" => :optional
   depends_on "imagemagick" => :optional
-  depends_on "librsvg" => :optional
-  depends_on "mailutils" => :optional
 
   fails_with :llvm do
     build 2334
@@ -49,16 +47,20 @@ class EmacsEdge < Formula
   def install
     args = %W[
       --disable-dependency-tracking
+      --disable-ns-self-contained
       --disable-silent-rules
       --enable-locallisppath=#{HOMEBREW_PREFIX}/share/emacs/site-lisp
       --infodir=#{info}/emacs
       --prefix=#{prefix}
       --with-modules
+      --with-ns
+      --with-rsvg
       --with-xml2
+      --without-pop
       --without-x
     ]
 
-    if build.with? "d-bus"
+    if build.with? "dbus"
       args << "--with-dbus"
     else
       args << "--without-dbus"
@@ -73,17 +75,8 @@ class EmacsEdge < Formula
     args << "--enable-check-lisp-object-type" if build.with? "check-lisp-object-type"
     args << "--with-cairo" if build.with? "cairo"
     args << "--with-imagemagick" if build.with? "imagemagick"
-    args << "--with-rsvg" if build.with? "librsvg"
-    args << "--without-compress-install" if build.without? "compress-install"
-    args << "--without-pop" if build.with? "mailutils"
 
-    if build.with? "cocoa"
-      args << "--with-ns" << "--disable-ns-self-contained"
-    else
-      args << "--without-ns"
-    end
-
-    system "./autogen.sh"
+    system "./autogen.sh" unless build.stable?
     system "./configure", *args
     system "make"
     system "make", "install"
@@ -111,16 +104,10 @@ class EmacsEdge < Formula
   end
 
   def caveats
-    s = "Source files were installed in #{opt_pkgshare}.\n"
-    if build.with? "cocoa"
-      s += <<-EOS.undent
-
-      A command line wrapper for the cocoa app was installed to:
-        #{bin}/emacs
-      EOS
-    end
-    s
+    "Source files were installed in #{opt_pkgshare}."
   end
+
+  plist_options :manual => "emacs"
 
   def plist; <<-EOS.undent
     <?xml version="1.0" encoding="UTF-8"?>
