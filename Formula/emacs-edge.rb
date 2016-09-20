@@ -7,7 +7,7 @@ class EmacsEdge < Formula
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
-        :branch => "emacs-25"
+        branch: "emacs-25"
     version "25.2-devel"
 
     depends_on "autoconf" => :build
@@ -84,16 +84,14 @@ class EmacsEdge < Formula
     # Install C sources
     pkgshare.install "src", "lib"
 
-    if build.with? "cocoa"
-      prefix.install "nextstep/Emacs.app"
+    prefix.install "nextstep/Emacs.app"
 
-      # Replace the symlink with one that avoids starting Cocoa.
-      (bin/"emacs").unlink # Kill the existing symlink
-      (bin/"emacs").write <<-EOS.undent
-        #!/bin/bash
-        exec #{prefix}/Emacs.app/Contents/MacOS/Emacs "$@"
-      EOS
-    end
+    # Replace the symlink with one that avoids starting Cocoa.
+    (bin/"emacs").unlink # Kill the existing symlink
+    (bin/"emacs").write <<-EOS.undent
+      #!/bin/bash
+      exec #{prefix}/Emacs.app/Contents/MacOS/Emacs "$@"
+    EOS
 
     # Follow MacPorts and don't install ctags from Emacs. This allows Vim
     # and Emacs and ctags to play together without violence.
@@ -107,7 +105,7 @@ class EmacsEdge < Formula
     "Source files were installed in #{opt_pkgshare}."
   end
 
-  plist_options :manual => "emacs"
+  plist_options manual: "emacs"
 
   def plist; <<-EOS.undent
     <?xml version="1.0" encoding="UTF-8"?>
