@@ -7,7 +7,7 @@ class EmacsEdge < Formula
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
-        branch: "emacs-25"
+        :branch => "emacs-25"
     version "25.2-devel"
 
     depends_on "autoconf" => :build
@@ -39,6 +39,11 @@ class EmacsEdge < Formula
   depends_on "dbus" => :optional
   depends_on "imagemagick" => :optional
 
+  if OS.linux?
+    depends_on "gtk+3"
+    depends_on "webkitgtk"
+  end
+
   fails_with :llvm do
     build 2334
     cause "Duplicate symbol errors while linking."
@@ -47,18 +52,28 @@ class EmacsEdge < Formula
   def install
     args = %W[
       --disable-dependency-tracking
-      --disable-ns-self-contained
       --disable-silent-rules
       --enable-locallisppath=#{HOMEBREW_PREFIX}/share/emacs/site-lisp
       --infodir=#{info}/emacs
       --prefix=#{prefix}
       --with-modules
-      --with-ns
       --with-rsvg
       --with-xml2
       --without-pop
-      --without-x
     ]
+
+    if OS.mac?
+      args += %w[
+        --disable-ns-self-contained
+        --with-ns
+        --without-x
+      ]
+    else
+      args += %w[
+        --with-x-toolkit=gtk3
+        --with-xwidgets
+      ]
+    end
 
     if build.with? "dbus"
       args << "--with-dbus"
