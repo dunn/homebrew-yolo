@@ -1,9 +1,8 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftpmirror.gnu.org/emacs/emacs-25.1.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/emacs/emacs-25.1.tar.xz"
-  sha256 "19f2798ee3bc26c95dca3303e7ab141e7ad65d6ea2b6945eeba4dbea7df48f33"
+  url "http://alpha.gnu.org/gnu/emacs/pretest/emacs-25.1.90.tar.xz"
+  sha256 "4dadcf1ed96e9c375647a55a053a41c64c4958cb3eadb1ee50d6b2e8c1aa8a6a"
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
