@@ -38,11 +38,6 @@ class EmacsEdge < Formula
   depends_on "dbus" => :optional
   depends_on "imagemagick" => :optional
 
-  if OS.linux?
-    depends_on "gtk+3"
-    depends_on "webkitgtk"
-  end
-
   fails_with :llvm do
     build 2334
     cause "Duplicate symbol errors while linking."
@@ -66,11 +61,6 @@ class EmacsEdge < Formula
         --disable-ns-self-contained
         --with-ns
         --without-x
-      ]
-    else
-      args += %w[
-        --with-x-toolkit=gtk3
-        --with-xwidgets
       ]
     end
 
