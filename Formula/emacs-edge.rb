@@ -12,13 +12,14 @@ class EmacsEdge < Formula
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "pkg-config" => :build
+    depends_on "texinfo" => :build
   end
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
     depends_on "autoconf" => :build
-    depends_on "automake" => :build
     depends_on "pkg-config" => :build
+    depends_on "texinfo" => :build
   end
 
   # https://lists.gnu.org/archive/html/emacs-devel/2016-06/msg00630.html
