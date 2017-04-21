@@ -28,6 +28,16 @@ class EmacsEdge < Formula
     sha256 "c8a1402c73b5eb6bd1dc747f6411e42760beff8a41ead3726395a90e04f0dae7"
   end
 
+  # https://magit.vc/manual/magit/MacOS-Performance.html
+  unless build.head?
+    # upstream commit doesn't apply cleanly, so use emacs-plus version
+    # https://github.com/d12frosted/homebrew-emacs-plus/blob/cf6f2da402b10a37e3c27fe19c1a8b551d5dd118/Formula/emacs-plus.rb#L87-L96
+    patch do
+      url "https://gist.githubusercontent.com/aaronjensen/f45894ddf431ecbff78b1bcf533d3e6b/raw/6a5cd7f57341aba673234348d8b0d2e776f86719/Emacs-25-OS-X-use-vfork.patch"
+      sha256 "f2fdbc5adab80f1af01ce120cf33e3b0590d7ae29538999287986beb55ec9ada"
+    end
+  end
+
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
   option "with-ctags", "Don't remove the ctags executable that Emacs provides"
   option "without-compress-install", "Don't compress elisp, info, etc., files"
