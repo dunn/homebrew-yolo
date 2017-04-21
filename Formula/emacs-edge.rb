@@ -46,7 +46,7 @@ class EmacsEdge < Formula
   depends_on "gnutls" => :recommended
   depends_on "cairo" => :optional
   depends_on "dbus" => :optional
-  depends_on "imagemagick" => :optional
+  depends_on "imagemagick@6" => :optional
 
   fails_with :llvm do
     build 2334
