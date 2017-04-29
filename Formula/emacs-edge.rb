@@ -39,7 +39,6 @@ class EmacsEdge < Formula
   end
 
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
-  option "with-ctags", "Don't remove the ctags executable that Emacs provides"
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
   depends_on "librsvg"
@@ -110,10 +109,8 @@ class EmacsEdge < Formula
 
     # Follow MacPorts and don't install ctags from Emacs. This allows Vim
     # and Emacs and ctags to play together without violence.
-    if build.without? "ctags"
-      (bin/"ctags").unlink
-      rm Dir["#{man1}/ctags*"]
-    end
+    (bin/"ctags").unlink
+    rm Dir["#{man1}/ctags*"]
   end
 
   def caveats
