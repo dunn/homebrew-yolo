@@ -5,14 +5,14 @@ class Cmucl < Formula
   sha256 "6f9ea5920d38d6881cee85d976565b3a6070bf6473dd64254e0e9f2f23625875"
   head "https://gitlab.common-lisp.net/cmucl/cmucl.git"
 
-  resource "bootstrap" do
-    url "https://common-lisp.net/project/cmucl/downloads/snapshots/2017/01/cmucl-2017-01-x86-darwin.tar.bz2"
-    sha256 "a458035577a7c5893f36da457087679999a3e472b0ad0fd3ad122a35630061a7"
-  end
-
   devel do
     url "https://common-lisp.net/project/cmucl/downloads/snapshots/2017/01/cmucl-src-2017-01.tar.bz2"
     sha256 "1b6b813eca3d48652ca69529ffc4819598e3d0e21ac76f74c66a928bd7bfd062"
+  end
+
+  resource "bootstrap" do
+    url "https://common-lisp.net/project/cmucl/downloads/snapshots/2017/01/cmucl-2017-01-x86-darwin.tar.bz2"
+    sha256 "a458035577a7c5893f36da457087679999a3e472b0ad0fd3ad122a35630061a7"
   end
 
   def install
