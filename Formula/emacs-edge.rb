@@ -48,11 +48,6 @@ class EmacsEdge < Formula
   depends_on "dbus" => :optional
   depends_on "imagemagick@6" => :optional
 
-  fails_with :llvm do
-    build 2334
-    cause "Duplicate symbol errors while linking."
-  end
-
   def install
     args = %W[
       --disable-dependency-tracking
