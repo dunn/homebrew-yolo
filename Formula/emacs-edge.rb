@@ -1,13 +1,13 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftpmirror.gnu.org/emacs/emacs-25.2.tar.xz"
-  sha256 "59b55194c9979987c5e9f1a1a4ab5406714e80ffcfd415cc6b9222413bc073fa"
+  url "https://ftp.gnu.org/gnu/emacs/emacs-25.3.tar.xz"
+  sha256 "253ac5e7075e594549b83fd9ec116a9dc37294d415e2f21f8ee109829307c00b"
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
         :branch => "emacs-25"
-    version "25.2-devel"
+    version "25.4-devel"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -112,7 +112,7 @@ class EmacsEdge < Formula
     "Source files were installed in #{opt_pkgshare}."
   end
 
-  plist_options manual: "emacs"
+  plist_options :manual => "emacs"
 
   def plist; <<-EOS.undent
     <?xml version="1.0" encoding="UTF-8"?>
