@@ -79,14 +79,16 @@ class EmacsEdge < Formula
     # Install C sources
     pkgshare.install "src", "lib"
 
-    prefix.install "nextstep/Emacs.app"
+    if OS.mac?
+      prefix.install "nextstep/Emacs.app"
 
-    # Replace the symlink with one that avoids starting Cocoa.
-    (bin/"emacs").unlink # Kill the existing symlink
-    (bin/"emacs").write <<-EOS.undent
-      #!/bin/bash
-      exec #{prefix}/Emacs.app/Contents/MacOS/Emacs "$@"
-    EOS
+      # Replace the symlink with one that avoids starting Cocoa.
+      (bin/"emacs").unlink # Kill the existing symlink
+      (bin/"emacs").write <<-EOS.undent
+        #!/bin/bash
+        exec #{prefix}/Emacs.app/Contents/MacOS/Emacs "$@"
+      EOS
+    end
 
     # Follow MacPorts and don't install ctags from Emacs. This allows Vim
     # and Emacs and ctags to play together without violence.
