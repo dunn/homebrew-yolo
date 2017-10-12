@@ -1,24 +1,22 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftp.gnu.org/gnu/emacs/emacs-25.3.tar.xz"
-  sha256 "253ac5e7075e594549b83fd9ec116a9dc37294d415e2f21f8ee109829307c00b"
+  url "https://alpha.gnu.org/gnu/emacs/pretest/emacs-26.0.90.tar.xz"
+  sha256 "efb27124cb8f3eeba9472f4f5774b5d9bf4f87fd4d6023aae78469fb5667cf2c"
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
-        :branch => "emacs-25"
-    version "25.4-devel"
+        :branch => "emacs-26"
+    version "26.1-devel"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
-    depends_on "pkg-config" => :build
     depends_on "texinfo" => :build
   end
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
     depends_on "autoconf" => :build
-    depends_on "pkg-config" => :build
     depends_on "texinfo" => :build
   end
 
@@ -28,21 +26,10 @@ class EmacsEdge < Formula
     sha256 "c8a1402c73b5eb6bd1dc747f6411e42760beff8a41ead3726395a90e04f0dae7"
   end
 
-  # https://magit.vc/manual/magit/MacOS-Performance.html
-  unless build.head?
-    # upstream commit doesn't apply cleanly, so use emacs-plus version
-    # https://github.com/d12frosted/homebrew-emacs-plus/blob/cf6f2da402b10a37e3c27fe19c1a8b551d5dd118/Formula/emacs-plus.rb#L87-L96
-    patch do
-      url "https://gist.githubusercontent.com/aaronjensen/f45894ddf431ecbff78b1bcf533d3e6b/raw/6a5cd7f57341aba673234348d8b0d2e776f86719/Emacs-25-OS-X-use-vfork.patch"
-      sha256 "f2fdbc5adab80f1af01ce120cf33e3b0590d7ae29538999287986beb55ec9ada"
-    end
-  end
-
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
-  depends_on "librsvg"
-  depends_on "mailutils"
+  depends_on "pkg-config" => :build
   depends_on "gnutls" => :recommended
   depends_on "cairo" => :optional
   depends_on "dbus" => :optional
@@ -50,7 +37,6 @@ class EmacsEdge < Formula
 
   def install
     args = %W[
-      --disable-dependency-tracking
       --disable-silent-rules
       --enable-locallisppath=#{HOMEBREW_PREFIX}/share/emacs/site-lisp
       --infodir=#{info}/emacs
