@@ -1,8 +1,8 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://alpha.gnu.org/gnu/emacs/pretest/emacs-26.0.90.tar.xz"
-  sha256 "efb27124cb8f3eeba9472f4f5774b5d9bf4f87fd4d6023aae78469fb5667cf2c"
+  url "https://alpha.gnu.org/gnu/emacs/pretest/emacs-26.0.91.tar.xz"
+  sha256 "31f6bb353e13d337e10160f778608e342becd213fbb21c9f08085abe318381a0"
 
   devel do
     url "https://github.com/emacs-mirror/emacs.git",
@@ -84,7 +84,7 @@ class EmacsEdge < Formula
 
       # Replace the symlink with one that avoids starting Cocoa.
       (bin/"emacs").unlink # Kill the existing symlink
-      (bin/"emacs").write <<-EOS.undent
+      (bin/"emacs").write <<~EOS
         #!/bin/bash
         exec #{prefix}/Emacs.app/Contents/MacOS/Emacs "$@"
       EOS
@@ -102,7 +102,7 @@ class EmacsEdge < Formula
 
   plist_options :manual => "emacs"
 
-  def plist; <<-EOS.undent
+  def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
