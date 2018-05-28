@@ -1,18 +1,9 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://alpha.gnu.org/gnu/emacs/pretest/emacs-26.1-rc1.tar.xz"
-  sha256 "6594e668de00b96e73ad4f168c897fe4bca7c55a4caf19ee20eac54b62a05758"
-
-  devel do
-    url "https://github.com/emacs-mirror/emacs.git",
-        :branch => "emacs-26"
-    version "26.1-devel"
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "texinfo" => :build
-  end
+  url "https://ftp.gnu.org/gnu/emacs/emacs-26.1.tar.xz"
+  mirror "https://ftpmirror.gnu.org/emacs/emacs-26.1.tar.xz"
+  sha256 "1cf4fc240cd77c25309d15e18593789c8dbfba5c2b44d8f77c886542300fd32c"
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
