@@ -7,7 +7,7 @@ class PassGitHelper < Formula
   sha256 "d0b0ffa40e609eddabef2f00153af06064a5985be4cc17c8c22d97422dce0760"
   head "https://github.com/languitar/pass-git-helper.git"
 
-  depends_on :python3
+  depends_on "python"
 
   resource "pyxdg" do
     url "https://files.pythonhosted.org/packages/26/28/ee953bd2c030ae5a9e9a0ff68e5912bd90ee50ae766871151cd2572ca570/pyxdg-0.25.tar.gz"
