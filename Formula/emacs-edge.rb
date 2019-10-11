@@ -1,13 +1,14 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftp.gnu.org/gnu/emacs/emacs-26.1.tar.xz"
-  mirror "https://ftpmirror.gnu.org/emacs/emacs-26.1.tar.xz"
-  sha256 "1cf4fc240cd77c25309d15e18593789c8dbfba5c2b44d8f77c886542300fd32c"
+  url "https://ftp.gnu.org/gnu/emacs/emacs-26.3.tar.xz"
+  mirror "https://ftpmirror.gnu.org/emacs/emacs-26.3.tar.xz"
+  sha256 "4d90e6751ad8967822c6e092db07466b9d383ef1653feb2f95c93e7de66d3485"
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
     depends_on "autoconf" => :build
+    depends_on "gnu-sed" => :buildz
     depends_on "texinfo" => :build
   end
 
@@ -62,7 +63,11 @@ class EmacsEdge < Formula
     args << "--with-cairo" if build.with? "cairo"
     args << "--with-imagemagick" if build.with? "imagemagick"
 
-    system "./autogen.sh" unless build.stable?
+    if build.head?
+      ENV.prepend_path "PATH", Formula["gnu-sed"].opt_libexec/"gnubin"
+      system "./autogen.sh"
+    end
+
     system "./configure", *args
     system "make"
     system "make", "install"
@@ -103,7 +108,7 @@ class EmacsEdge < Formula
       <key>ProgramArguments</key>
       <array>
         <string>#{opt_bin}/emacs</string>
-        <string>--daemon</string>
+        <string>--fg-daemon</string>
       </array>
       <key>RunAtLoad</key>
       <true/>
