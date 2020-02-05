@@ -1,11 +1,10 @@
 class Openrefine < Formula
   desc "Tools for working with messy data"
   homepage "http://openrefine.org"
-  url "https://github.com/OpenRefine/OpenRefine/archive/2.8.tar.gz"
-  sha256 "a7e00b404d7d11f2da7f01977e4e920c23e227c7f025cc2593c17a088d62da33"
+  url "https://github.com/OpenRefine/OpenRefine/releases/download/3.3/openrefine-linux-3.3.tar.gz"
+  sha256 "49ac55c6a39b08e4213a2f5c837b8967302401384bceed27cc95de6dc0fe6087"
 
   def install
-    system "./refine", "build"
     libexec.install Dir["*"]
     bin.write_exec_script libexec/"refine", libexec/"unsign"
   end
