@@ -7,8 +7,9 @@ class EmacsEdge < Formula
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
+
     depends_on "autoconf" => :build
-    depends_on "gnu-sed" => :buildz
+    depends_on "gnu-sed" => :build
     depends_on "texinfo" => :build
   end
 
@@ -22,21 +23,26 @@ class EmacsEdge < Formula
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
   depends_on "pkg-config" => :build
-  depends_on "gnutls" => :recommended
+  depends_on "gnutls"
   depends_on "cairo" => :optional
   depends_on "dbus" => :optional
-  depends_on "imagemagick@6" => :optional
+  depends_on "imagemagick" => :optional
+
+  on_linux do
+    depends_on "jpeg"
+  end
 
   def install
     args = %W[
+      --disable-dependency-tracking
       --disable-silent-rules
       --enable-locallisppath=#{HOMEBREW_PREFIX}/share/emacs/site-lisp
       --infodir=#{info}/emacs
       --prefix=#{prefix}
+      --with-gnutls
       --with-modules
       --with-rsvg
       --with-xml2
-      --without-pop
     ]
 
     if OS.mac?
@@ -47,16 +53,10 @@ class EmacsEdge < Formula
       ]
     end
 
-    if build.with? "dbus"
-      args << "--with-dbus"
+    args << if build.with? "dbus"
+      "--with-dbus"
     else
-      args << "--without-dbus"
-    end
-
-    if build.with? "gnutls"
-      args << "--with-gnutls"
-    else
-      args << "--without-gnutls"
+      "--without-dbus"
     end
 
     args << "--enable-check-lisp-object-type" if build.with? "check-lisp-object-type"
@@ -89,7 +89,7 @@ class EmacsEdge < Formula
     # Follow MacPorts and don't install ctags from Emacs. This allows Vim
     # and Emacs and ctags to play together without violence.
     (bin/"ctags").unlink
-    rm Dir["#{man1}/ctags*"]
+    (man1/"ctags.1.gz").unlink
   end
 
   def caveats
@@ -98,22 +98,23 @@ class EmacsEdge < Formula
 
   plist_options :manual => "emacs"
 
-  def plist; <<~EOS
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>Label</key>
-      <string>#{plist_name}</string>
-      <key>ProgramArguments</key>
-      <array>
-        <string>#{opt_bin}/emacs</string>
-        <string>--fg-daemon</string>
-      </array>
-      <key>RunAtLoad</key>
-      <true/>
-    </dict>
-    </plist>
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>Label</key>
+        <string>#{plist_name}</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>#{opt_bin}/emacs</string>
+          <string>--fg-daemon</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+      </dict>
+      </plist>
     EOS
   end
 
