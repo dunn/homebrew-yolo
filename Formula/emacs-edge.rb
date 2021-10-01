@@ -1,9 +1,10 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftp.gnu.org/gnu/emacs/emacs-26.3.tar.xz"
-  mirror "https://ftpmirror.gnu.org/emacs/emacs-26.3.tar.xz"
-  sha256 "4d90e6751ad8967822c6e092db07466b9d383ef1653feb2f95c93e7de66d3485"
+  url "https://ftp.gnu.org/gnu/emacs/emacs-27.2.tar.xz"
+  mirror "https://ftpmirror.gnu.org/emacs/emacs-27.2.tar.xz"
+  sha256 "b4a7cc4e78e63f378624e0919215b910af5bb2a0afc819fad298272e9f40c1b9"
+  license "GPL-3.0-or-later"
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
@@ -23,7 +24,10 @@ class EmacsEdge < Formula
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
   depends_on "pkg-config" => :build
+
   depends_on "gnutls"
+  depends_on "jansson"
+
   depends_on "cairo" => :optional
   depends_on "dbus" => :optional
   depends_on "imagemagick" => :optional
@@ -33,6 +37,11 @@ class EmacsEdge < Formula
   end
 
   def install
+    # Mojave uses the Catalina SDK which causes issues like
+    # https://github.com/Homebrew/homebrew-core/issues/46393
+    # https://github.com/Homebrew/homebrew-core/pull/70421
+    ENV["ac_cv_func_aligned_alloc"] = "no" if MacOS.version == :mojave
+
     args = %W[
       --disable-dependency-tracking
       --disable-silent-rules
