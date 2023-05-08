@@ -1,9 +1,9 @@
 class EmacsEdge < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftp.gnu.org/gnu/emacs/emacs-27.2.tar.xz"
-  mirror "https://ftpmirror.gnu.org/emacs/emacs-27.2.tar.xz"
-  sha256 "b4a7cc4e78e63f378624e0919215b910af5bb2a0afc819fad298272e9f40c1b9"
+  url "https://ftp.gnu.org/gnu/emacs/emacs-28.2.tar.xz"
+  mirror "https://ftpmirror.gnu.org/emacs/emacs-28.2.tar.xz"
+  sha256 "ee21182233ef3232dc97b486af2d86e14042dbb65bbc535df562c3a858232488"
   license "GPL-3.0-or-later"
 
   head do
@@ -14,16 +14,11 @@ class EmacsEdge < Formula
     depends_on "texinfo" => :build
   end
 
-  # https://lists.gnu.org/archive/html/emacs-devel/2016-06/msg00630.html
-  # patch do
-  #   url "https://gist.github.com/dunn/86c9364c009a9ba99243da653aecbd23/raw/49fc227b2b27a3f9aa43e502181dcb19783a2ee5/emoji.patch"
-  #   sha256 "c8a1402c73b5eb6bd1dc747f6411e42760beff8a41ead3726395a90e04f0dae7"
-  # end
-
   option "with-check-lisp-object-type", "Enable compile-time checks for Lisp_Object"
   option "without-compress-install", "Don't compress elisp, info, etc., files"
 
   depends_on "pkg-config" => :build
+  depends_on "glib" => :build
 
   depends_on "gnutls"
   depends_on "jansson"
@@ -105,7 +100,7 @@ class EmacsEdge < Formula
     "Source files were installed in #{opt_pkgshare}."
   end
 
-  plist_options :manual => "emacs"
+  # service.require_root :manual => "emacs"
 
   def plist
     <<~EOS
